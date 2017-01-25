@@ -39,12 +39,7 @@ public class MainController {
 		request.setAttribute("tasks", taskService.findAll());
 		request.setAttribute("mode", "MODE_TASKS");
 		request.setAttribute("statistics", taskService.statistics());
-		return "index";
-	}
-
-	@GetMapping("/new-task")
-	public String newTask(HttpServletRequest request) {
-		request.setAttribute("mode", "MODE_NEW");
+		request.setAttribute("categoryList", taskService.getCategories());
 		return "index";
 	}
 
@@ -54,12 +49,12 @@ public class MainController {
 		return "index";
 	}
 
-/*	@GetMapping("/save-category")
-	public RedirectView saveCategory(@RequestParam String categoryName, HttpServletRequest request) {
+	@GetMapping("/save-category")
+	public RedirectView saveCategory(String categoryName, HttpServletRequest request) {
 		request.setAttribute("mode", "MODE_GATEGORY");
 		taskService.saveNewCategory(categoryName);
 		return new RedirectView("all-tasks");
-	}*/
+	}
 
 	@PostMapping("/save-task")
 	public RedirectView saveTask(@ModelAttribute Task task, BindingResult bindingResult, HttpServletRequest request) {
@@ -69,11 +64,20 @@ public class MainController {
 		request.setAttribute("mode", "MODE_TASKS");
 		return new RedirectView("all-tasks");
 	}
+	
+	@GetMapping("/new-task")
+	public String newTask(HttpServletRequest request) {
+		request.setAttribute("mode", "MODE_NEW");
+		request.setAttribute("categoryList", taskService.getCategories());
+		return "index";
+	}
 
 	@GetMapping("/update-task")
 	public String updateTask(@RequestParam int id, HttpServletRequest request) {
-		request.setAttribute("task", taskService.findTask(id));
+		Task task = taskService.findTask(id);
+		request.setAttribute("task", task);
 		request.setAttribute("mode", "MODE_UPDATE");
+		request.setAttribute("categoryList", taskService.getCategories());
 		return "index";
 	}
 
@@ -82,6 +86,13 @@ public class MainController {
 		taskService.delete(id);
 		request.setAttribute("tasks", taskService.findAll());
 		request.setAttribute("mode", "MODE_TASKS");
+		return new RedirectView("all-tasks");
+	}
+	
+	
+	@GetMapping("/delete-all-tasks")
+	public RedirectView deleteAllTasks(HttpServletRequest request){
+		taskService.deleteAll();
 		return new RedirectView("all-tasks");
 	}
 }

@@ -15,12 +15,13 @@ import clist.model.Task;
 public class TaskService {
 
 	private final TaskRepository taskRepository;
-/*	private List<String> categories;*/
+	private List<String> categories;
 
 	public TaskService(TaskRepository taskRepository) {
 		this.taskRepository = taskRepository;
-/*		this.categories = new LinkedList<>();
-		this.categories.add("MAIN CATEGORY");*/
+		this.categories = new LinkedList<>();
+		this.categories.add("CATEGORY 1");
+		this.categories.add("CATEGORY 2");
 	}
 
 	public Iterable<Task> findAll() {
@@ -34,13 +35,21 @@ public class TaskService {
 	public void save(Task task) {
 		taskRepository.save(task);
 	}
-	
-/*	public void saveNewCategory(String categoryName) {
+
+	public void saveNewCategory(String categoryName) {
 		categories.add(categoryName);
-	}*/
+	}
 
 	public void delete(int id) {
 		taskRepository.delete(id);
+	}
+
+	public void deleteAll() {
+		taskRepository.delete(taskRepository.findAll());
+	}
+		
+	public List<String> getCategories() {
+		return categories;
 	}
 
 	public String statistics() {
@@ -51,8 +60,8 @@ public class TaskService {
 				numberOfTasksDone++;
 			}
 		}
-		return "Current Number of Tasks: " + numberOfTasks + "Number of Tasks Done: " + numberOfTasksDone + "\n"
-				+ "Number of Tasks To Do: " + (numberOfTasks - numberOfTasksDone);
+		return "Current Number of Tasks: " + numberOfTasks + " | Number of Tasks Done: " + numberOfTasksDone + "\n"
+				+ " | Number of Tasks To Do: " + (numberOfTasks - numberOfTasksDone);
 	}
-	
+
 }

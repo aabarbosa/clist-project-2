@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-@Entity(name = "t_tasks")
+@Entity(name = "tasks_t")
 public class Task implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -20,19 +20,22 @@ public class Task implements Serializable {
 	private int id;
 	private String name;
 	private String description;
+	private String categoryName;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dateCreated;
+	private String priority;
 	private boolean finished;
-/*	private String categoryName;*/
 
 	public Task() {
 	}
 
-	public Task(String name, String description, Date dateCreated, boolean finished) {
+	public Task(String name, String description, String  categoryName, Date dateCreated, String priority, boolean finished) {
 		super();
 		this.name = name;
 		this.description = description;
+		this.categoryName = categoryName;
 		this.dateCreated = dateCreated;
+		this.priority = priority;
 		this.finished = finished;
 	}
 
@@ -76,17 +79,25 @@ public class Task implements Serializable {
 		this.finished = finished;
 	}
 
-/*	public String getCategoryName() {
+	public String getCategoryName() {
 		return categoryName;
 	}
 
 	public void setCategoryName(String categoryName) {
 		this.categoryName = categoryName;
-	}*/
+	}
 
+	public String getPriority() {
+		return priority;
+	}
+
+	public void setPriority(String priority) {
+		this.priority = priority;
+	}
+	
 	@Override
 	public String toString() {
-		return "id = " + id + ", name = " + name + ", description = " + description + ", dateCreated = " + dateCreated
-				+ ", finished = " + finished ;
+		return "Task [id=" + id + ", name=" + name + ", description=" + description + ", categoryName=" + categoryName
+				+ ", dateCreated=" + dateCreated + ", priority=" + priority + ", finished=" + finished + "]";
 	}
 }
